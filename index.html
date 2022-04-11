@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Update a choropleth layer by zoom level</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<style>
+    #menu {
+    background: #fff;
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    right: 10px;
+    border-radius: 3px;
+    width: 120px;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    font-family: 'Open Sans', sans-serif;
+    }
+    
+    #menu a {
+    font-size: 13px;
+    color: #404040;
+    display: block;
+    margin: 0;
+    padding: 0;
+    padding: 10px;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    text-align: center;
+    }
+    
+    #menu a:last-child {
+    border: none;
+    }
+    
+    #menu a:hover {
+    background-color: #f8f8f8;
+    color: #404040;
+    }
+    
+    #menu a.active {
+    background-color: #3887be;
+    color: #ffffff;
+    }
+    
+    #menu a.active:hover {
+    background: #3074a4;
+    }
+
+</style>
+
+<nav id="menu"></nav>
+<div id="map"></div>
+
+<script>
+	mapboxgl.accessToken = 'pk.eyJ1IjoibWVnc3Byb3R0ZSIsImEiOiJjbDAxYnR1MTkwcGkwM2lwbWN2b2M2YTAzIn0.h7kbhUtoxCDNL9-hj6staw';
+    const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/light-v10',
+        center: [-98, 38.88],
+        minZoom: 3,
+        zoom: 3
+    });
+
+    const zoomThreshold = 4;
+
+    map.on('load', () => {
+
+        // YALE
+        map.addSource('yale', {
+            'type': 'vector',
+            'url': 'mapbox://megsprotte.8pll3kfg'
+        });
+        map.addLayer(
+            {
+                'id': 'humanCaused',
+                'source': 'yale',
+                'source-layer': 'yale-climate-opinion-map-1he0ht',
+                'maxzoom': zoomThreshold,
+                'type': 'fill',
+                // only include features for which the "isState"
+                // property is "true"
+                'paint': {
+                    'fill-color': [
+                    "interpolate",
+                    ["linear"],
+                    ["get", "human"],
+                    0,
+                    "hsl(0, 95%, 43%)",
+                    64.687,
+                    "#78fe3e"
+                    ],
+                    'fill-opacity': .5
+                }
+            }
+        );
+
+        // STATESATRISK
+        map.addSource('reportCard', {
+            'type': 'vector',
+            'url': 'mapbox://megsprotte.54ydb0h3' 
+        });
+        map.addLayer(
+            {
+                'id': 'statesAtRisk',
+                'source': 'reportCard',
+                'source-layer': 'reportcard-statesatrisk-2gkkla',
+                'maxzoom': zoomThreshold,
+                'type': 'fill',
+                // only include features for which the "isState"
+                // property is "true"
+                'paint': {
+                    'fill-color': [
+                        "interpolate",
+                        ["linear"],
+                        ["zoom"],
+                        2,
+                        [
+                            "match",
+                            ["get", "State_Grad"],
+                            ["A"],
+                            "#61f597",
+                            ["A-"],
+                            "hsl(142, 85%, 41%)",
+                            ["B+"],
+                            "#8deef6",
+                            ["B"],
+                            "#09e2f6",
+                            ["B-"],
+                            "#09c2d3",
+                            ["C+"],
+                            "hsl(231, 93%, 71%)",
+                            ["C"],
+                            "#334eeb",
+                            ["C-"],
+                            "hsl(271, 98%, 43%)",
+                            ["D+"],
+                            "hsl(331, 63%, 70%)",
+                            ["D"],
+                            "#ce3680",
+                            ["D-"],
+                            "#a54a76",
+                            ["F"],
+                            "hsl(0, 76%, 33%)",
+                            "hsl(275, 6%, 97%)"
+                        ],
+                        22,
+                        [
+                            "match",
+                            ["get", "State_Grad"],
+                            ["A"],
+                            "#61f597",
+                            ["A-"],
+                            "hsl(142, 85%, 41%)",
+                            ["B+"],
+                            "#8deef6",
+                            ["B"],
+                            "#09e2f6",
+                            ["B-"],
+                            "#09c2d3",
+                            ["C+"],
+                            "hsl(231, 93%, 71%)",
+                            ["C"],
+                            "#334eeb",
+                            ["C-"],
+                            "hsl(271, 98%, 43%)",
+                            ["D+"],
+                            "hsl(331, 63%, 70%)",
+                            ["D"],
+                            "#ce3680",
+                            ["D-"],
+                            "#a54a76",
+                            ["F"],
+                            "hsl(0, 76%, 33%)",
+                            "hsl(275, 6%, 97%)"
+                        ]
+                    ],
+                    'fill-opacity': .5
+                }
+            }
+        );
+
+        // CARBON INTENSITY
+        map.addSource('carbon-intensity', {
+            'type': 'vector',
+            'url': 'mapbox://megsprotte.a1wltdji'
+        });
+        map.addLayer(
+            {
+                'id': 'carbon-intensity-economy',
+                'source': 'carbon-intensity',
+                'source-layer': 'carbon-intensity-of-the-econo-bf52d0',
+                'maxzoom': zoomThreshold,
+                'type': 'fill',
+                // only include features for which the "isState"
+                // property is "true"
+                'paint': {
+                    'fill-color': [
+                        "interpolate",
+                        ["linear"],
+                        ["get", "Absolute"],
+                        -459.131148545,
+                        "#d60505",
+                        0,
+                        "#78fe3e"
+                    ],
+                    'fill-opacity': .5
+                }
+            }
+        );
+
+        // PER CAPITA CO2
+        map.addSource('per-capita-co2', {
+            'type': 'vector',
+            'url': 'mapbox://megsprotte.crbe6x8s'
+        });
+        map.addLayer(
+            {
+                'id': 'per-capita-energy-related-co2',
+                'source': 'per-capita-co2',
+                'source-layer': 'per-capita-energy-related-co2-6swj0z',
+                'maxzoom': zoomThreshold,
+                'type': 'fill',
+                // only include features for which the "isState"
+                // property is "true"
+                'paint': {
+                    'fill-color': [
+                        "interpolate",
+                        ["linear"],
+                        ["get", "Absolute"],
+                        -459.131148545,
+                        "#d60505",
+                        0,
+                        "#78fe3e"
+                    ],
+                    'fill-opacity': .5
+                }
+            }
+        );
+
+        // ENERGY INTENSITY BY STATE
+        map.addSource('energy-intensity', {
+            'type': 'vector',
+            'url': 'mapbox://megsprotte.5rhd0yzk'
+        });
+        map.addLayer(
+            {
+                'id': 'energy-intensity-by-state',
+                'source': 'energy-intensity',
+                'source-layer': 'energy-intensity-by-state-9biizy',
+                'maxzoom': zoomThreshold,
+                'type': 'fill',
+                // only include features for which the "isState"
+                // property is "true"
+                'paint': {
+                    'fill-color': [
+                        "interpolate",
+                        ["linear"],
+                        ["get", "Percent"],
+                        -0.456189151599,
+                        "hsl(0, 58%, 63%)",
+                        0,
+                        "#000000"
+                    ],
+                    'fill-opacity': .5
+                }
+            }
+        );
+        
+    });
+
+    map.on('idle', () => {        
+        // Enumerate ids of the layers.
+        const toggleableLayerIds = ['humanCaused', 'statesAtRisk', 'carbon-intensity-economy', 'per-capita-energy-related-co2', 'energy-intensity-by-state'];
+        
+        // Set up the corresponding toggle button for each layer.
+        for (const id of toggleableLayerIds) {
+        // Skip layers that already have a button set up.
+        if (document.getElementById(id)) {
+        continue;
+        }
+        
+        // Create a link.
+        const link = document.createElement('a');
+        link.id = id;
+        link.href = '#';
+        link.textContent = id;
+        link.className = 'active';
+        
+        // Show or hide layer when the toggle is clicked.
+        link.onclick = function (e) {
+        const clickedLayer = this.textContent;
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const visibility = map.getLayoutProperty(
+        clickedLayer,
+        'visibility'
+        );
+        
+        // Toggle layer visibility by changing the layout object's visibility property.
+        if (visibility === 'visible') {
+        map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+        this.className = '';
+        } else {
+        this.className = 'active';
+        map.setLayoutProperty(
+        clickedLayer,
+        'visibility',
+        'visible'
+        );
+        }
+        };
+        
+        const layers = document.getElementById('menu');
+        layers.appendChild(link);
+        }
+        });
+</script>
+
+</body>
+</html>
