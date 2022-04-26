@@ -53,7 +53,7 @@ body { margin: 0; padding: 0; }
     const map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/light-v10',
-        center: [-98, 38.88],
+        center: [-90, 38.88],
         minZoom: 3,
         zoom: 3
     });
@@ -64,56 +64,54 @@ body { margin: 0; padding: 0; }
         
         // define legend colors
         colors = [
-            'rgba(177, 47, 47, 1)',
-            'rgba(177, 47, 47, .95)',
-            'rgba(177, 47, 47, .9)',
-            'rgba(177, 47, 47, .85)',
-            'rgba(177, 47, 47, .8)',
-            'rgba(177, 47, 47, .75)',
-            'rgba(177, 47, 47, .7)',
-            'rgba(177, 47, 47, .65)',
-            'rgba(177, 47, 47, .6)',
-            'rgba(177, 47, 47, .55)',
-            'rgba(177, 47, 47, .5)',
-            'rgba(177, 47, 47, .45)',
-            'rgba(177, 47, 47, .4)',
-            'rgba(177, 47, 47, .35)',
-            'rgba(177, 47, 47, .3)',
-            'rgba(177, 47, 47, .25)',
-            'rgba(177, 47, 47, .2)',
-            'rgba(177, 47, 47, .15)',
-            'rgba(177, 47, 47, .1)',
-            'rgba(177, 47, 47, 0.05)',
-            'rgba(177, 47, 47, 0)',
-            'rgba(38, 161, 44, 0.05)',
-            'rgba(38, 161, 44, .1)',
-            'rgba(38, 161, 44, .15)',
-            'rgba(38, 161, 44, .2)',
-            'rgba(38, 161, 44, .25)',
-            'rgba(38, 161, 44, .3)',
-            'rgba(38, 161, 44, .35)',
-            'rgba(38, 161, 44, .4)',
-            'rgba(38, 161, 44, .45)',
-            'rgba(38, 161, 44, .5)',
-            'rgba(38, 161, 44, .55)',
-            'rgba(38, 161, 44, .6)',
-            'rgba(38, 161, 44, .65)',
-            'rgba(38, 161, 44, .7)',
-            'rgba(38, 161, 44, .75)',
-            'rgba(38, 161, 44, .8)',
-            'rgba(38, 161, 44, .85)',
-            'rgba(38, 161, 44, .9)',
-            'rgba(38, 161, 44, .95)',
-            'rgba(38, 161, 44, 1)',
-
-        ];
+            '#b12f2f',
+            '#b1322b',
+            '#b13628',
+            '#b13924',
+            '#b13d20',
+            '#b0401c',
+            '#b04317',
+            '#af4712',
+            '#ae4a0c',
+            '#ad4e05',
+            '#ab5100',
+            '#aa5400',
+            '#a85800',
+            '#a65b00',
+            '#a45e00',
+            '#a26200',
+            '#9f6500',
+            '#9d6800',
+            '#9a6b00',
+            '#976e00',
+            '#947100',
+            '#917400',
+            '#8e7700',
+            '#8a7a00',
+            '#877d00',
+            '#837f00',
+            '#7f8200',
+            '#7b8500',
+            '#768700',
+            '#728a00',
+            '#6d8c00',
+            '#688f00',
+            '#629100',
+            '#5c9400',
+            '#569600',
+            '#4f9807',
+            '#479b13',
+            '#3e9d1d',
+            '#349f25',
+            '#26a12c',
+        ]
         
         // create legend
         const legend = document.getElementById('legend');
 
         const insecure = document.createElement('span');
         insecure.className = 'legendLabelText';
-        insecure.innerHTML = 'High Score';
+        insecure.innerHTML = 'Low Score';
         legend.appendChild(insecure);
         
         colors.forEach((color) => {
@@ -127,7 +125,7 @@ body { margin: 0; padding: 0; }
 
         const secure = document.createElement('span');
         secure.className = 'legendLabelText';
-        secure.innerHTML = 'Low Score';
+        secure.innerHTML = 'High Score';
         legend.appendChild(secure);
 
         ////////////////////////////////////////////////////////////////////////////////

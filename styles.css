@@ -40,12 +40,12 @@
 }
     
 #menu-beliefs a.active {
-    background-color: #13cebf;
+    background-color: #13ce83;
     color: #ffffff;
 }
     
 #menu-beliefs a.active:hover {
-    background: #13cebf;
+    background: #13ce83;
 }
 
 
@@ -86,12 +86,12 @@
 }
     
 #menu-policy a.active {
-    background-color: #13cebf;
+    background-color: #13ce83;
     color: #ffffff;
 }
     
 #menu-policy a.active:hover {
-    background: #13cebf;
+    background: #13ce83;
 }
 
 #menu-energyCO2 {
@@ -131,12 +131,12 @@
 }
     
 #menu-energyCO2 a.active {
-    background-color: #13cebf;
+    background-color: #13ce83;
     color: #ffffff;
 }
     
 #menu-energyCO2 a.active:hover {
-    background: #13cebf;
+    background: #13ce83;
 }
 
 #menu-damage {
@@ -176,12 +176,12 @@
 }
     
 #menu-damage a.active {
-    background-color: #13cebf;
+    background-color: #13ce83;
     color: #ffffff;
 }
     
 #menu-damage a.active:hover {
-    background: #13cebf;
+    background: #13ce83;
 }
 
 #legend {
