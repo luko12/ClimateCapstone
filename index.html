@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <title>Update a choropleth layer by zoom level</title>
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-<link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">
-<script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css' rel='stylesheet' />
 <style>
 body { margin: 0; padding: 0; }
 #map { position: absolute; top: 0; bottom: 0; width: 100%; }
@@ -15,17 +15,20 @@ body { margin: 0; padding: 0; }
 <link rel="stylesheet" href="styles.css">
 <nav id="menu-beliefs"></nav>
 <nav id="menu-policy"></nav>
-<div id="map"></div>
+<div style="z-index:-1; position: fixed;" id="map"></div>
+<div style="z-index:1; position: fixed;" class='map-overlay' id="legend"></div>
 
 <script>
 
     const layersBeliefs = document.getElementById('menu-beliefs');
     const labelBeliefs = document.createElement("p");
-    labelBeliefs.innerText = "Beliefs/Perceptions";
+    labelBeliefs.className = 'toggleLabelText';
+    labelBeliefs.innerText = "Beliefs";
     layersBeliefs.appendChild(labelBeliefs);
 
     const layersPolicy = document.getElementById('menu-policy');
     const labelPolicy = document.createElement("p");
+    labelPolicy.className = 'toggleLabelText';
     labelPolicy.innerText = "Policy";
     layersPolicy.appendChild(labelPolicy);   
 
@@ -44,34 +47,74 @@ body { margin: 0; padding: 0; }
     const zoomThreshold = 4;
 
     map.on('load', () => {
-
+        
+        // define legend colors
         colors = [
-            '#FFEDA0',
-            '#FED976',
-            '#FEB24C',
-            '#FD8D3C',
-            '#FC4E2A',
-            '#E31A1C',
-            '#BD0026',
-            '#800026'
+            'rgba(177, 47, 47, 1)',
+            'rgba(177, 47, 47, .95)',
+            'rgba(177, 47, 47, .9)',
+            'rgba(177, 47, 47, .85)',
+            'rgba(177, 47, 47, .8)',
+            'rgba(177, 47, 47, .75)',
+            'rgba(177, 47, 47, .7)',
+            'rgba(177, 47, 47, .65)',
+            'rgba(177, 47, 47, .6)',
+            'rgba(177, 47, 47, .55)',
+            'rgba(177, 47, 47, .5)',
+            'rgba(177, 47, 47, .45)',
+            'rgba(177, 47, 47, .4)',
+            'rgba(177, 47, 47, .35)',
+            'rgba(177, 47, 47, .3)',
+            'rgba(177, 47, 47, .25)',
+            'rgba(177, 47, 47, .2)',
+            'rgba(177, 47, 47, .15)',
+            'rgba(177, 47, 47, .1)',
+            'rgba(177, 47, 47, 0.05)',
+            'rgba(177, 47, 47, 0)',
+            'rgba(38, 161, 44, 0.05)',
+            'rgba(38, 161, 44, .1)',
+            'rgba(38, 161, 44, .15)',
+            'rgba(38, 161, 44, .2)',
+            'rgba(38, 161, 44, .25)',
+            'rgba(38, 161, 44, .3)',
+            'rgba(38, 161, 44, .35)',
+            'rgba(38, 161, 44, .4)',
+            'rgba(38, 161, 44, .45)',
+            'rgba(38, 161, 44, .5)',
+            'rgba(38, 161, 44, .55)',
+            'rgba(38, 161, 44, .6)',
+            'rgba(38, 161, 44, .65)',
+            'rgba(38, 161, 44, .7)',
+            'rgba(38, 161, 44, .75)',
+            'rgba(38, 161, 44, .8)',
+            'rgba(38, 161, 44, .85)',
+            'rgba(38, 161, 44, .9)',
+            'rgba(38, 161, 44, .95)',
+            'rgba(38, 161, 44, 1)',
+
         ];
         
         // create legend
         const legend = document.getElementById('legend');
+
+        const insecure = document.createElement('span');
+        insecure.className = 'legendLabelText';
+        insecure.innerHTML = 'Insecure';
+        legend.appendChild(insecure);
         
-        layers.forEach((layer, i) => {
-        const color = colors[i];
-        const item = document.createElement('div');
-        const key = document.createElement('span');
-        key.className = 'legend-key';
-        key.style.backgroundColor = color;
-        
-        const value = document.createElement('span');
-        value.innerHTML = `${layer}`;
-        item.appendChild(key);
-        item.appendChild(value);
-        legend.appendChild(item);
+        colors.forEach((color) => {
+            const itemColor = color;
+            const key = document.createElement('span');
+            key.className = 'legend-key';
+
+            key.style.backgroundColor = itemColor;
+            legend.appendChild(key);
         });
+
+        const secure = document.createElement('span');
+        secure.className = 'legendLabelText';
+        secure.innerHTML = 'Secure';
+        legend.appendChild(secure);
 
         // YALE
         map.addSource('yale', {
