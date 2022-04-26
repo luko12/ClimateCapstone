@@ -5,6 +5,8 @@
 <title>Climate Crossroads</title>
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
 <script src='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js'></script>
+<!-- Load the `mapbox-gl-geocoder` plugin. -->
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
 <link href='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css' rel='stylesheet' />
 <link rel="icon" href="worldwide.png">
 <style>
@@ -58,6 +60,15 @@ body { margin: 0; padding: 0; }
         minZoom: 3,
         zoom: 3
     });
+
+    map.addControl(new mapboxgl.NavigationControl(), position='bottom-left');
+    map.addControl(
+        new MapboxGeocoder({
+            accessToken: mapboxgl.accessToken,
+            mapboxgl: mapboxgl
+        }),
+        position='top-left'
+    );
 
     const zoomThreshold = 4;
 
