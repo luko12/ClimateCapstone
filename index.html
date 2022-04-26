@@ -15,6 +15,8 @@ body { margin: 0; padding: 0; }
 <link rel="stylesheet" href="styles.css">
 <nav id="menu-beliefs"></nav>
 <nav id="menu-policy"></nav>
+<nav id="menu-energyCO2"></nav>
+<nav id="menu-damage"></nav>
 <div style="z-index:-1; position: fixed;" id="map"></div>
 <div style="z-index:1; position: fixed;" class='map-overlay' id="legend"></div>
 
@@ -31,6 +33,18 @@ body { margin: 0; padding: 0; }
     labelPolicy.className = 'toggleLabelText';
     labelPolicy.innerText = "Policy";
     layersPolicy.appendChild(labelPolicy);   
+
+    const layersEnergyCO2 = document.getElementById('menu-energyCO2');
+    const labelEnergyCO2 = document.createElement("p");
+    labelEnergyCO2.className = 'toggleLabelText';
+    labelEnergyCO2.innerText = "Energy & CO2";
+    layersEnergyCO2.appendChild(labelEnergyCO2); 
+    
+    const layersDamage = document.getElementById('menu-damage');
+    const labelDamage = document.createElement("p");
+    labelDamage.className = 'toggleLabelText';
+    labelDamage.innerText = "Projected Annual Damage (4 degrees warming scenario)";
+    layersDamage.appendChild(labelDamage); 
 
     // RESOURCES:
     // https://docs.mapbox.com/mapbox-gl-js/example/toggle-layers/
@@ -99,7 +113,7 @@ body { margin: 0; padding: 0; }
 
         const insecure = document.createElement('span');
         insecure.className = 'legendLabelText';
-        insecure.innerHTML = 'Insecure';
+        insecure.innerHTML = 'High Score';
         legend.appendChild(insecure);
         
         colors.forEach((color) => {
@@ -113,8 +127,11 @@ body { margin: 0; padding: 0; }
 
         const secure = document.createElement('span');
         secure.className = 'legendLabelText';
-        secure.innerHTML = 'Secure';
+        secure.innerHTML = 'Low Score';
         legend.appendChild(secure);
+
+        ////////////////////////////////////////////////////////////////////////////////
+        // BELIEFS
 
         // YALE
         map.addSource('yale', {
@@ -272,6 +289,9 @@ body { margin: 0; padding: 0; }
             }
         );
 
+        ////////////////////////////////////////////////////////////////////////////////
+        // POLICY
+
         // STATESATRISK
         map.addSource('reportCard', {
             'type': 'vector',
@@ -354,11 +374,69 @@ body { margin: 0; padding: 0; }
             }
         );
 
+        ////////////////////////////////////////////////////////////////////////////////
+        // ENERGY + CO2
+
+        // ENERGY INTENSITY BY STATE
+        map.addSource('energy-intensity', {
+            'type': 'vector',
+            'url': 'mapbox://megsprotte.5rhd0yzk'
+        });
+
+        map.addLayer(
+            {
+                'id': '2018 Energy Intensity',
+                'source': 'energy-intensity',
+                'source-layer': 'energy-intensity-by-state-9biizy',
+                'maxzoom': zoomThreshold,
+                'type': 'fill',
+                'paint': {
+                    'fill-color': [
+                        "interpolate",
+                        ["linear"],
+                        ["get", "F2018"],
+                        0,
+                        "#26a12c",
+                        5.8,
+                        "hsla(0, 58%, 44%, 0)",
+                        18.05,
+                        "#b12f2f"
+                    ],
+                    'fill-opacity': 1
+                }
+            }
+        );
+
+
         // CARBON INTENSITY
         map.addSource('carbon-intensity', {
             'type': 'vector',
             'url': 'mapbox://megsprotte.a1wltdji'
         });
+
+        map.addLayer(
+            {
+                'id': '2018 Carbon Intensity of the Economy',
+                'source': 'carbon-intensity',
+                'source-layer': 'carbon-intensity-of-the-econo-bf52d0',
+                'maxzoom': zoomThreshold,
+                'type': 'fill',
+                'paint': {
+                    'fill-color': [
+                        "interpolate",
+                        ["linear"],
+                        ["get", "F2018"],
+                        0,
+                        "#26a12c",
+                        296,
+                        "hsla(0, 58%, 44%, 0)",
+                        1082.63905331,
+                        "#b12f2f"
+                    ],
+                    'fill-opacity': 1
+                }
+            }
+        );
 
         // PER CAPITA CO2
         map.addSource('per-capita-co2', {
@@ -366,66 +444,193 @@ body { margin: 0; padding: 0; }
             'url': 'mapbox://megsprotte.crbe6x8s'
         });
 
-        // ENERGY INTENSITY BY STATE
-        map.addSource('energy-intensity', {
+        map.addLayer(
+            {
+                'id': '2018 Per Capita Energy Related CO2',
+                'source': 'per-capita-co2',
+                'source-layer': 'per-capita-energy-related-co2-6swj0z',
+                'maxzoom': zoomThreshold,
+                'type': 'fill',
+                'paint': {
+                    'fill-color': [
+                        "interpolate",
+                        ["linear"],
+                        ["get", "Year__2018"],
+                        0,
+                        "#26a12c",
+                        16.4,
+                        "hsla(0, 58%, 44%, 0)",
+                        109.9,
+                        "#b12f2f"
+                    ],
+                    'fill-opacity': 1
+                }
+            }
+        );
+
+        ////////////////////////////////////////////////////////////////////////////////
+        // PROJECTED DAMAGE
+
+        // INLAND FLOODING
+        map.addSource('inland-flooding', {
             'type': 'vector',
-            'url': 'mapbox://megsprotte.5rhd0yzk'
+            'url': 'mapbox://megsprotte.ahq2nels'
         });
+
+        map.addLayer(
+            {
+                'id': 'Inland Flooding Damage',
+                'source': 'inland-flooding',
+                'source-layer': 'flood-0my4mc',
+                'maxzoom': zoomThreshold,
+                'type': 'fill',
+                'paint': {
+                    'fill-color': [
+                        "interpolate",
+                        ["linear"],
+                        ["get", "F4_deg"],
+                        -0.0792244225376,
+                        "#26a12c",
+                        -0.007,
+                        "hsla(0, 58%, 44%, 0)",
+                        0.064497232707,
+                        "#b12f2f"
+                    ],
+                    'fill-opacity': 1
+                }
+            }
+        );
+
+        // ANNUAL CHILDHOOD ASTHMA DIAGNOSES
+        map.addSource('asthma', {
+            'type': 'vector',
+            'url': 'mapbox://megsprotte.6opipm9n'
+        });
+
+        map.addLayer(
+            {
+                'id': 'Childhood Asthma Diagnoses',
+                'source': 'asthma',
+                'source-layer': 'asthma-c2j4mx',
+                'maxzoom': zoomThreshold,
+                'type': 'fill',
+                'paint': {
+                    'fill-color': [
+                        "interpolate",
+                        ["linear"],
+                        ["get", "F4_deg"],
+                        -0.000567796467423,
+                        "#26a12c",
+                        0,
+                        "hsla(0, 58%, 44%, 0)",
+                        0.00127815492074,
+                        "#b12f2f"
+                    ],
+                    'fill-opacity': 1
+                }
+            }
+        );
+
+        // LABOR
+        map.addSource('labor', {
+            'type': 'vector',
+            'url': 'mapbox://megsprotte.age4lp60'
+        });
+
+        map.addLayer(
+            {
+                'id': 'Hours Lost for Weather-Exposed Workers',
+                'source': 'labor',
+                'source-layer': 'labor-49w8oc',
+                'maxzoom': zoomThreshold,
+                'type': 'fill',
+                'paint': {
+                    'fill-color': [
+                        "interpolate",
+                        ["linear"],
+                        ["get", "F4_deg"],
+                        0,
+                        "hsla(0, 0%, 0%, 0)",
+                        0.001,
+                        "#26a12c",
+                        29.25,
+                        "hsla(0, 58%, 44%, 0)",
+                        81.791042,
+                        "hsl(0, 58%, 44%)"
+                    ],
+                    'fill-opacity': 1
+                }
+            }
+        );
+
+        const mapLayers = ['Hours Lost for Weather-Exposed Workers', 'Childhood Asthma Diagnoses', 'Inland Flooding Damage', '2018 Per Capita Energy Related CO2', '2018 Carbon Intensity of the Economy', '2018 Energy Intensity', 'GHG Emissions Targets', 'Climate Change is Happening', 'Climate Change is Human Caused', 'Climate Change will Harm me Personally', 'Climate Change will Harm People in the US', 'Corporations should do more', 'The President should do more', 'State Grade'];
+        for (const id of mapLayers) {
+            map.setLayoutProperty(id, 'visibility', 'none');
+        }
         
     });
 
     map.on('idle', () => {        
         // Enumerate ids of the layers.
-        const toggleableLayerIds = ['GHG Emissions Targets', 'Climate Change is Happening', 'Climate Change is Human Caused', 'Climate Change will Harm me Personally', 'Climate Change will Harm People in the US', 'Corporations should do more', 'The President should do more', 'State Grade'];
+        const toggleableLayerIds = ['Hours Lost for Weather-Exposed Workers', 'Childhood Asthma Diagnoses', 'Inland Flooding Damage', '2018 Per Capita Energy Related CO2', '2018 Carbon Intensity of the Economy', '2018 Energy Intensity', 'GHG Emissions Targets', 'Climate Change is Happening', 'Climate Change is Human Caused', 'Climate Change will Harm me Personally', 'Climate Change will Harm People in the US', 'Corporations should do more', 'The President should do more', 'State Grade'];
         
         // Set up the corresponding toggle button for each layer.
         for (const id of toggleableLayerIds) {
-        // Skip layers that already have a button set up.
-        if (document.getElementById(id)) {
-        continue;
+            // Skip layers that already have a button set up.
+            if (document.getElementById(id)) {
+                continue;
+            }
+            
+            // Create a link.
+            const link = document.createElement('a');
+            link.id = id;
+            link.href = '#';
+            link.textContent = id;
+            link.className = '';
+            
+            // Show or hide layer when the toggle is clicked.
+            link.onclick = function (e) {
+                const clickedLayer = this.textContent;
+                e.preventDefault();
+                e.stopPropagation();
+            
+                const visibility = map.getLayoutProperty(
+                    clickedLayer,
+                    'visibility'
+                );
+            
+                // Toggle layer visibility by changing the layout object's visibility property.
+                if (visibility === 'visible') {
+                    map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+                    this.className = '';
+                } else {
+                    this.className = 'active';
+                    map.setLayoutProperty(
+                        clickedLayer,
+                        'visibility',
+                        'visible'
+                    );
+                }
+            };
+            
+            if (['Climate Change is Happening', 'Climate Change is Human Caused', 'Climate Change will Harm me Personally', 'Climate Change will Harm People in the US', 'Corporations should do more', 'The President should do more'].includes(link.id))
+            {
+                layersBeliefs.appendChild(link);
+            }
+            if(['State Grade', 'GHG Emissions Targets'].includes(link.id))
+            {
+                layersPolicy.appendChild(link);
+            }
+            if (['2018 Per Capita Energy Related CO2', '2018 Carbon Intensity of the Economy', '2018 Energy Intensity'].includes(link.id))
+            {
+                layersEnergyCO2.appendChild(link);
+            }
+            if (['Hours Lost for Weather-Exposed Workers', 'Childhood Asthma Diagnoses', 'Inland Flooding Damage'].includes(link.id))
+            {
+                layersDamage.appendChild(link);
+            }
         }
-        
-        // Create a link.
-        const link = document.createElement('a');
-        link.id = id;
-        link.href = '#';
-        link.textContent = id;
-        link.className = 'active';
-        
-        // Show or hide layer when the toggle is clicked.
-        link.onclick = function (e) {
-        const clickedLayer = this.textContent;
-        e.preventDefault();
-        e.stopPropagation();
-        
-        const visibility = map.getLayoutProperty(
-        clickedLayer,
-        'visibility'
-        );
-        
-        // Toggle layer visibility by changing the layout object's visibility property.
-        if (visibility === 'visible') {
-        map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-        this.className = '';
-        } else {
-        this.className = 'active';
-        map.setLayoutProperty(
-        clickedLayer,
-        'visibility',
-        'visible'
-        );
-        }
-        };
-        
-        const layersBeliefs = document.getElementById('menu-beliefs');
-        const layersPolicy = document.getElementById('menu-policy');
-        if (['Climate Change is Happening', 'Climate Change is Human Caused', 'Climate Change will Harm me Personally', 'Climate Change will Harm People in the US', 'Corporations should do more', 'The President should do more'].includes(link.id))
-        {
-            layersBeliefs.appendChild(link);
-        }
-        if(['State Grade', 'GHG Emissions Targets'].includes(link.id)){layersPolicy.appendChild(link);}
-        }
-        });
+    });
 </script>
 
 </body>
