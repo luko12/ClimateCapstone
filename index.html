@@ -123,7 +123,7 @@ body { margin: 0; padding: 0; }
         });
         map.addLayer(
             {
-                'id': 'humanCaused',
+                'id': 'Climate Change is Happening',
                 'source': 'yale',
                 'source-layer': 'yale-climate-opinion-map-1he0ht',
                 'maxzoom': zoomThreshold,
@@ -132,15 +132,142 @@ body { margin: 0; padding: 0; }
                 // property is "true"
                 'paint': {
                     'fill-color': [
-                    "interpolate",
-                    ["linear"],
-                    ["get", "human"],
-                    0,
-                    "hsl(0, 95%, 43%)",
-                    64.687,
-                    "#78fe3e"
+                        "interpolate",
+                        ["linear"],
+                        ["get", "happening"],
+                        0,
+                        "hsl(0, 58%, 44%)",
+                        70.161,
+                        "hsla(123, 62%, 39%, 0)",
+                        83.326,
+                        "hsl(123, 62%, 39%)"
                     ],
-                    'fill-opacity': .5
+                    'fill-opacity': 1
+                }
+            }
+        );
+        map.addLayer(
+            {
+                'id': 'Climate Change is Human Caused',
+                'source': 'yale',
+                'source-layer': 'yale-climate-opinion-map-1he0ht',
+                'maxzoom': zoomThreshold,
+                'type': 'fill',
+                // only include features for which the "isState"
+                // property is "true"
+                'paint': {
+                    'fill-color': [
+                        "interpolate",
+                        ["linear"],
+                        ["get", "human"],
+                        0,
+                        "#b12f2f",
+                        55.104,
+                        "hsla(123, 62%, 39%, 0)",
+                        64.687,
+                        "#26a12c"
+                    ],
+                    'fill-opacity': 1
+                }
+            }
+        );
+        map.addLayer(
+            {
+                'id': 'Climate Change will Harm me Personally',
+                'source': 'yale',
+                'source-layer': 'yale-climate-opinion-map-1he0ht',
+                'maxzoom': zoomThreshold,
+                'type': 'fill',
+                // only include features for which the "isState"
+                // property is "true"
+                'paint': {
+                    'fill-color': [
+                        "interpolate",
+                        ["linear"],
+                        ["get", "personal"],
+                        0,
+                        "#b12f2f",
+                        43,
+                        "hsla(123, 62%, 39%, 0)",
+                        58.868,
+                        "#26a12c"
+                        ],
+                    'fill-opacity': 1
+                }
+            }
+        );
+        map.addLayer(
+            {
+                'id': 'Climate Change will Harm People in the US',
+                'source': 'yale',
+                'source-layer': 'yale-climate-opinion-map-1he0ht',
+                'maxzoom': zoomThreshold,
+                'type': 'fill',
+                // only include features for which the "isState"
+                // property is "true"
+                'paint': {
+                    'fill-color': [
+                        "interpolate",
+                        ["linear"],
+                        ["get", "harmUS"],
+                        0,
+                        "#b12f2f",
+                        62,
+                        "hsla(123, 62%, 39%, 0)",
+                        75.508,
+                        "#26a12c"
+                        ],
+                    'fill-opacity': 1
+                }
+            }
+        );
+        map.addLayer(
+            {
+                'id': 'Corporations should do more',
+                'source': 'yale',
+                'source-layer': 'yale-climate-opinion-map-1he0ht',
+                'maxzoom': zoomThreshold,
+                'type': 'fill',
+                // only include features for which the "isState"
+                // property is "true"
+                'paint': {
+                    'fill-color': [
+                        "interpolate",
+                        ["linear"],
+                        ["get", "corporatio"],
+                        0,
+                        "#b12f2f",
+                        68.8,
+                        "hsla(123, 62%, 39%, 0)",
+                        78.568,
+                        "#26a12c"
+                        ],
+                    'fill-opacity': 1
+                }
+            }
+        );
+        map.addLayer(
+            {
+                'id': 'The President should do more',
+                'source': 'yale',
+                'source-layer': 'yale-climate-opinion-map-1he0ht',
+                'maxzoom': zoomThreshold,
+                'type': 'fill',
+                // only include features for which the "isState"
+                // property is "true"
+                'paint': {
+                    'fill-color': [
+                        "interpolate",
+                        ["linear"],
+                        ["get", "president"],
+                        0,
+                        "#b12f2f",
+                        50.8,
+                        "hsla(123, 62%, 39%, 0)",
+                        63.883,
+                        "#26a12c"
+                        ],
+                    'fill-opacity': 1
                 }
             }
         );
@@ -152,7 +279,7 @@ body { margin: 0; padding: 0; }
         });
         map.addLayer(
             {
-                'id': 'statesAtRisk',
+                'id': 'State Grade',
                 'source': 'reportCard',
                 'source-layer': 'reportcard-statesatrisk-2gkkla',
                 'maxzoom': zoomThreshold,
@@ -161,71 +288,68 @@ body { margin: 0; padding: 0; }
                 // property is "true"
                 'paint': {
                     'fill-color': [
-                        "interpolate",
-                        ["linear"],
-                        ["zoom"],
-                        2,
-                        [
-                            "match",
-                            ["get", "State_Grad"],
-                            ["A"],
-                            "#61f597",
-                            ["A-"],
-                            "hsl(142, 85%, 41%)",
-                            ["B+"],
-                            "#8deef6",
-                            ["B"],
-                            "#09e2f6",
-                            ["B-"],
-                            "#09c2d3",
-                            ["C+"],
-                            "hsl(231, 93%, 71%)",
-                            ["C"],
-                            "#334eeb",
-                            ["C-"],
-                            "hsl(271, 98%, 43%)",
-                            ["D+"],
-                            "hsl(331, 63%, 70%)",
-                            ["D"],
-                            "#ce3680",
-                            ["D-"],
-                            "#a54a76",
-                            ["F"],
-                            "hsl(0, 76%, 33%)",
-                            "hsl(275, 6%, 97%)"
-                        ],
-                        22,
-                        [
-                            "match",
-                            ["get", "State_Grad"],
-                            ["A"],
-                            "#61f597",
-                            ["A-"],
-                            "hsl(142, 85%, 41%)",
-                            ["B+"],
-                            "#8deef6",
-                            ["B"],
-                            "#09e2f6",
-                            ["B-"],
-                            "#09c2d3",
-                            ["C+"],
-                            "hsl(231, 93%, 71%)",
-                            ["C"],
-                            "#334eeb",
-                            ["C-"],
-                            "hsl(271, 98%, 43%)",
-                            ["D+"],
-                            "hsl(331, 63%, 70%)",
-                            ["D"],
-                            "#ce3680",
-                            ["D-"],
-                            "#a54a76",
-                            ["F"],
-                            "hsl(0, 76%, 33%)",
-                            "hsl(275, 6%, 97%)"
-                        ]
+                        "match",
+                        ["get", "State_Grad"],
+                        ["A"],
+                        "#26a12c",
+                        ["A-"],
+                        "hsla(123, 62%, 39%, 0.8)",
+                        ["B+"],
+                        "hsla(123, 62%, 39%, 0.6)",
+                        ["B"],
+                        "hsla(123, 62%, 39%, 0.4)",
+                        ["B-"],
+                        "hsla(123, 62%, 39%, 0.2)",
+                        ["C+"],
+                        "hsla(123, 62%, 39%, 0)",
+                        ["C"],
+                        "hsla(0, 58%, 44%, 0)",
+                        ["C-"],
+                        "hsla(0, 58%, 44%, 0.2)",
+                        ["D+"],
+                        "hsla(0, 58%, 44%, 0.4)",
+                        ["D"],
+                        "hsla(0, 58%, 44%, 0.6)",
+                        ["D-"],
+                        "hsla(0, 58%, 44%, 0.8)",
+                        ["F"],
+                        "#b12f2f",
+                        "hsl(275, 6%, 97%)"
                     ],
-                    'fill-opacity': .5
+                    'fill-opacity': 1
+                }
+            }
+        );
+
+        // GHG TARGETS
+        map.addSource('ghg-targets', {
+            'type': 'vector',
+            'url': 'mapbox://megsprotte.2v2og34k'
+        });
+        map.addLayer(
+            {
+                'id': 'GHG Emissions Targets',
+                'source': 'ghg-targets',
+                'source-layer': 'ghg-emissions-targets-2jdjeb',
+                'maxzoom': zoomThreshold,
+                'type': 'fill',
+                'paint': {
+                    'fill-color': [
+                        "match",
+                        ["get", "GHG_Emis_1"],
+                        ["N/A"],
+                        "hsla(0, 58%, 44%, 0.7)",
+                        ["STATUTORY TARGET"],
+                        "hsla(123, 62%, 39%, 0.25)",
+                        ["EXECUTIVE TARGET"],
+                        "hsla(123, 62%, 39%, 0.25)",
+                        [
+                            "STATUTORY AND EXECUTIVE TARGETS"
+                        ],
+                        "hsla(123, 62%, 39%, 0.7)",
+                        "#000000"
+                    ],
+                    'fill-opacity': 1
                 }
             }
         );
@@ -235,93 +359,24 @@ body { margin: 0; padding: 0; }
             'type': 'vector',
             'url': 'mapbox://megsprotte.a1wltdji'
         });
-        map.addLayer(
-            {
-                'id': 'carbon-intensity-economy',
-                'source': 'carbon-intensity',
-                'source-layer': 'carbon-intensity-of-the-econo-bf52d0',
-                'maxzoom': zoomThreshold,
-                'type': 'fill',
-                // only include features for which the "isState"
-                // property is "true"
-                'paint': {
-                    'fill-color': [
-                        "interpolate",
-                        ["linear"],
-                        ["get", "Absolute"],
-                        -459.131148545,
-                        "#d60505",
-                        0,
-                        "#78fe3e"
-                    ],
-                    'fill-opacity': .5
-                }
-            }
-        );
 
         // PER CAPITA CO2
         map.addSource('per-capita-co2', {
             'type': 'vector',
             'url': 'mapbox://megsprotte.crbe6x8s'
         });
-        map.addLayer(
-            {
-                'id': 'per-capita-energy-related-co2',
-                'source': 'per-capita-co2',
-                'source-layer': 'per-capita-energy-related-co2-6swj0z',
-                'maxzoom': zoomThreshold,
-                'type': 'fill',
-                // only include features for which the "isState"
-                // property is "true"
-                'paint': {
-                    'fill-color': [
-                        "interpolate",
-                        ["linear"],
-                        ["get", "Absolute"],
-                        -459.131148545,
-                        "#d60505",
-                        0,
-                        "#78fe3e"
-                    ],
-                    'fill-opacity': .5
-                }
-            }
-        );
 
         // ENERGY INTENSITY BY STATE
         map.addSource('energy-intensity', {
             'type': 'vector',
             'url': 'mapbox://megsprotte.5rhd0yzk'
         });
-        map.addLayer(
-            {
-                'id': 'energy-intensity-by-state',
-                'source': 'energy-intensity',
-                'source-layer': 'energy-intensity-by-state-9biizy',
-                'maxzoom': zoomThreshold,
-                'type': 'fill',
-                // only include features for which the "isState"
-                // property is "true"
-                'paint': {
-                    'fill-color': [
-                        "interpolate",
-                        ["linear"],
-                        ["get", "Percent"],
-                        -0.456189151599,
-                        "hsl(0, 58%, 63%)",
-                        0,
-                        "#000000"
-                    ],
-                    'fill-opacity': .5
-                }
-            }
-        );
         
     });
 
     map.on('idle', () => {        
         // Enumerate ids of the layers.
-        const toggleableLayerIds = ['humanCaused', 'statesAtRisk', 'carbon-intensity-economy', 'per-capita-energy-related-co2', 'energy-intensity-by-state'];
+        const toggleableLayerIds = ['GHG Emissions Targets', 'Climate Change is Happening', 'Climate Change is Human Caused', 'Climate Change will Harm me Personally', 'Climate Change will Harm People in the US', 'Corporations should do more', 'The President should do more', 'State Grade'];
         
         // Set up the corresponding toggle button for each layer.
         for (const id of toggleableLayerIds) {
@@ -364,8 +419,11 @@ body { margin: 0; padding: 0; }
         
         const layersBeliefs = document.getElementById('menu-beliefs');
         const layersPolicy = document.getElementById('menu-policy');
-        if(link.id == 'humanCaused'){layersBeliefs.appendChild(link);}
-        if(link.id == 'statesAtRisk'){layersPolicy.appendChild(link);}
+        if (['Climate Change is Happening', 'Climate Change is Human Caused', 'Climate Change will Harm me Personally', 'Climate Change will Harm People in the US', 'Corporations should do more', 'The President should do more'].includes(link.id))
+        {
+            layersBeliefs.appendChild(link);
+        }
+        if(['State Grade', 'GHG Emissions Targets'].includes(link.id)){layersPolicy.appendChild(link);}
         }
         });
 </script>
