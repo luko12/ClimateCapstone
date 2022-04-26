@@ -12,55 +12,23 @@ body { margin: 0; padding: 0; }
 </style>
 </head>
 <body>
-<style>
-    #menu {
-    background: #fff;
-    position: absolute;
-    z-index: 1;
-    top: 10px;
-    right: 10px;
-    border-radius: 3px;
-    width: 120px;
-    border: 1px solid rgba(0, 0, 0, 0.4);
-    font-family: 'Open Sans', sans-serif;
-    }
-    
-    #menu a {
-    font-size: 13px;
-    color: #404040;
-    display: block;
-    margin: 0;
-    padding: 0;
-    padding: 10px;
-    text-decoration: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-    text-align: center;
-    }
-    
-    #menu a:last-child {
-    border: none;
-    }
-    
-    #menu a:hover {
-    background-color: #f8f8f8;
-    color: #404040;
-    }
-    
-    #menu a.active {
-    background-color: #3887be;
-    color: #ffffff;
-    }
-    
-    #menu a.active:hover {
-    background: #3074a4;
-    }
-
-</style>
-
-<nav id="menu"></nav>
+<link rel="stylesheet" href="styles.css">
+<nav id="menu-beliefs"></nav>
+<nav id="menu-policy"></nav>
 <div id="map"></div>
 
 <script>
+
+    const layersBeliefs = document.getElementById('menu-beliefs');
+    const labelBeliefs = document.createElement("p");
+    labelBeliefs.innerText = "Beliefs/Perceptions";
+    layersBeliefs.appendChild(labelBeliefs);
+
+    const layersPolicy = document.getElementById('menu-policy');
+    const labelPolicy = document.createElement("p");
+    labelPolicy.innerText = "Policy";
+    layersPolicy.appendChild(labelPolicy);   
+
     // RESOURCES:
     // https://docs.mapbox.com/mapbox-gl-js/example/toggle-layers/
     
@@ -76,6 +44,34 @@ body { margin: 0; padding: 0; }
     const zoomThreshold = 4;
 
     map.on('load', () => {
+
+        colors = [
+            '#FFEDA0',
+            '#FED976',
+            '#FEB24C',
+            '#FD8D3C',
+            '#FC4E2A',
+            '#E31A1C',
+            '#BD0026',
+            '#800026'
+        ];
+        
+        // create legend
+        const legend = document.getElementById('legend');
+        
+        layers.forEach((layer, i) => {
+        const color = colors[i];
+        const item = document.createElement('div');
+        const key = document.createElement('span');
+        key.className = 'legend-key';
+        key.style.backgroundColor = color;
+        
+        const value = document.createElement('span');
+        value.innerHTML = `${layer}`;
+        item.appendChild(key);
+        item.appendChild(value);
+        legend.appendChild(item);
+        });
 
         // YALE
         map.addSource('yale', {
@@ -323,8 +319,10 @@ body { margin: 0; padding: 0; }
         }
         };
         
-        const layers = document.getElementById('menu');
-        layers.appendChild(link);
+        const layersBeliefs = document.getElementById('menu-beliefs');
+        const layersPolicy = document.getElementById('menu-policy');
+        if(link.id == 'humanCaused'){layersBeliefs.appendChild(link);}
+        if(link.id == 'statesAtRisk'){layersPolicy.appendChild(link);}
         }
         });
 </script>
