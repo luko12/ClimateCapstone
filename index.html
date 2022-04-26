@@ -70,7 +70,7 @@ body { margin: 0; padding: 0; }
         position='top-left'
     );
 
-    const zoomThreshold = 4;
+    const zoomThreshold = 10;
 
     map.on('load', () => {
         
@@ -416,6 +416,19 @@ body { margin: 0; padding: 0; }
                 }
             }
         );
+        map.addLayer(
+            {
+                'id': 'statemap',
+                'source': 'energy-intensity',
+                'source-layer': 'energy-intensity-by-state-9biizy',
+                'maxzoom': zoomThreshold,
+                'type': 'fill',
+                'paint': {
+                    'fill-color': "hsla(0, 0%, 0%, 0)",
+                    'fill-opacity': 1
+                }
+            }
+        );
 
 
         // CARBON INTENSITY
@@ -501,7 +514,7 @@ body { margin: 0; padding: 0; }
                         ["get", "F4_deg"],
                         -0.0792244225376,
                         "#26a12c",
-                        -0.007,
+                        0,
                         "hsla(0, 58%, 44%, 0)",
                         0.064497232707,
                         "#b12f2f"
@@ -561,12 +574,8 @@ body { margin: 0; padding: 0; }
                         ["get", "F4_deg"],
                         0,
                         "hsla(0, 0%, 0%, 0)",
-                        0.001,
-                        "#26a12c",
-                        29.25,
-                        "hsla(0, 58%, 44%, 0)",
                         81.791042,
-                        "hsl(0, 58%, 44%)"
+                        "#b12f2f"
                     ],
                     'fill-opacity': 1
                 }
@@ -577,6 +586,36 @@ body { margin: 0; padding: 0; }
         for (const id of mapLayers) {
             map.setLayoutProperty(id, 'visibility', 'none');
         }
+
+        // Create a popup, but don't add it to the map yet.
+        const popup = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
+        });
+
+        map.on('mouseenter', ['statemap', 'Hours Lost for Weather-Exposed Workers','Inland Flooding Damage'], (e) => {
+            // Change the cursor style as a UI indicator.
+            map.getCanvas().style.cursor = 'pointer';
+
+            // Single out the first found feature.
+            var feature = e.features[0];
+            var htmlPopup = `<h4>${feature.properties.State}</h4>`
+
+            for (let i = 0; i < 5; i++) {
+                htmlPopup = htmlPopup + "<h4>yo</h4>";
+            }
+
+            // Display a popup with the name of the county
+            popup.setLngLat(e.lngLat)
+                .setHTML(htmlPopup)
+                //.setText(feature.properties.State)
+                .addTo(map);
+        });
+        
+        map.on('mouseleave', 'Hours Lost for Weather-Exposed Workers', () => {
+            map.getCanvas().style.cursor = '';
+            popup.remove();
+        });
         
     });
 
