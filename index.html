@@ -22,6 +22,29 @@ body { margin: 0; padding: 0; }
 <nav id="menu-damage"></nav>
 <div style="z-index:-1; position: fixed;" id="map"></div>
 <div style="z-index:1; position: fixed;" class='map-overlay' id="legend"></div>
+<nav id="title">
+    Climate Crossroads
+</nav>
+<nav id="context">
+    <div style="padding-right:20px">
+        <div>By <a href="https://www.linkedin.com/in/megansprotte/">Megan Sprottee</a> & <a href="https://twitter.com/ayoLuko">Lukas Houpt</a></div>
+        <div>University of Virginia Global Sustainability Capstone</div>
+    </div>
+    <div>
+        <div>
+            Instructions: 1. click on a layer 2. read the popup 3. explore intersections in climate data
+        </div>
+        <div>
+            Sources: 
+            <a href="https://www.c2es.org/document/greenhouse-gas-emissions-targets/">GHG Emissions Targets</a>
+            |  <a href="https://reportcard.statesatrisk.org/report-card/">State Grade</a>
+            |  <a href="https://www.eia.gov/environment/emissions/state/">Energy & CO2</a>
+            |  <a href="https://www.epa.gov/system/files/documents/2021-09/climate-vulnerability_september-2021_508.pdf">Projected Damage</a>
+            |  <a href="https://climatecommunication.yale.edu/visualizations-data/ycom-us/">Beliefs</a>
+            
+        </div>
+    </div>
+</nav>
 
 <script>
 
@@ -593,16 +616,56 @@ body { margin: 0; padding: 0; }
         closeOnClick: false
         });
 
-        map.on('mouseenter', ['statemap', 'Hours Lost for Weather-Exposed Workers','Inland Flooding Damage'], (e) => {
+        map.on('mouseenter', ['statemap', 'Hours Lost for Weather-Exposed Workers', 'Childhood Asthma Diagnoses', 'Inland Flooding Damage', '2018 Per Capita Energy Related CO2', '2018 Carbon Intensity of the Economy', '2018 Energy Intensity', 'GHG Emissions Targets', 'Climate Change is Happening', 'Climate Change is Human Caused', 'Climate Change will Harm me Personally', 'Climate Change will Harm People in the US', 'Corporations should do more', 'The President should do more', 'State Grade'], (e) => {
             // Change the cursor style as a UI indicator.
             map.getCanvas().style.cursor = 'pointer';
 
-            // Single out the first found feature.
-            var feature = e.features[0];
-            var htmlPopup = `<h4>${feature.properties.State}</h4>`
-
-            for (let i = 0; i < 5; i++) {
-                htmlPopup = htmlPopup + "<h4>yo</h4>";
+            for (let i = 0; i < e.features.length; i++){
+                if (e.features[i].properties.State) {
+                    var htmlPopup = `<strong>${e.features[i].properties.State}</strong>`
+                }
+                if (e.features[i].layer.id == 'Climate Change is Happening') {
+                    htmlPopup = htmlPopup + `<p>Global warming is happening: ${e.features[i].properties.happening}%</p>`
+                }
+                if (e.features[i].layer.id == 'Climate Change is Human Caused') {
+                    htmlPopup = htmlPopup + `<p>Global warming is caused mostly by human activities: ${e.features[i].properties.human}%</p>`
+                }
+                if (e.features[i].layer.id == 'Climate Change will Harm me Personally') {
+                    htmlPopup = htmlPopup + `<p>Global warming will harm me personally: ${e.features[i].properties.personal}%</p>`
+                }
+                if (e.features[i].layer.id == 'Climate Change will Harm People in the US') {
+                    htmlPopup = htmlPopup + `<p>Global warming will harm people in the US: ${e.features[i].properties.harmUS}%</p>`
+                }
+                if (e.features[i].layer.id == 'Corporations should do more') {
+                    htmlPopup = htmlPopup + `<p>Corporations should do more to address global warming: ${e.features[i].properties.corporatio}%</p>`
+                }
+                if (e.features[i].layer.id == 'The President should do more') {
+                    htmlPopup = htmlPopup + `<p>The President should do more to address global warming: ${e.features[i].properties.president}%</p>`
+                }
+                if (e.features[i].layer.id == '2018 Energy Intensity') {
+                    htmlPopup = htmlPopup + `<p>Thousand Btu per chained 2012 dollar of GDP: ${e.features[i].properties.F2018}</p>`
+                }
+                if (e.features[i].layer.id == '2018 Carbon Intensity of the Economy') {
+                    htmlPopup = htmlPopup + `<p>Metric tons of energy-related carbon dioxide per chained 2012 million dollars of GDP: ${e.features[i].properties.F2018}</p>`
+                }
+                if (e.features[i].layer.id == '2018 Per Capita Energy Related CO2') {
+                    htmlPopup = htmlPopup + `<p>Metric tons of energy-related carbon dioxide per person: ${e.features[i].properties.Year__2018}</p>`
+                }
+                if (e.features[i].layer.id == 'State Grade') {
+                    htmlPopup = htmlPopup + `<p>State Preparedness Grade: ${e.features[i].properties.State_Grad}</p>`
+                }
+                if (e.features[i].layer.id == 'GHG Emissions Targets') {
+                    htmlPopup = htmlPopup + `<p>U.S. State GHG Emissions Targets: ${e.features[i].properties.GHG_Emis_1}</p>`
+                }
+                if (e.features[i].layer.id == 'Inland Flooding Damage') {
+                    htmlPopup = htmlPopup + `<p>Expected annual damages from inland flooding (4 degree scenario): ${e.features[i].properties.F4_deg}</p>`
+                }
+                if (e.features[i].layer.id == 'Childhood Asthma Diagnoses') {
+                    htmlPopup = htmlPopup + `<p>Projected changes in annual childhood Asthma diagnoses eue to Climate Change-driven effects on PM2.5 (4 degree scenario): ${e.features[i].properties.F4_deg}</p>`
+                }
+                if (e.features[i].layer.id == 'Hours Lost for Weather-Exposed Workers') {
+                    htmlPopup = htmlPopup + `<p>Projected labor hours lost each year (4 degree scenario): ${e.features[i].properties.F4_deg}</p>`
+                }
             }
 
             // Display a popup with the name of the county
