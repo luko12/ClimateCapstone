@@ -187,10 +187,10 @@ body { margin: 0; padding: 0; }
                         ["get", "happening"],
                         0,
                         "hsl(0, 58%, 44%)",
-                        70.161,
+                        50,
                         "hsla(123, 62%, 39%, 0)",
                         83.326,
-                        "hsl(123, 62%, 39%)"
+                        "hsla(123, 62%, 39%, 0.83)"
                     ],
                     'fill-opacity': 1
                 }
@@ -212,10 +212,10 @@ body { margin: 0; padding: 0; }
                         ["get", "human"],
                         0,
                         "#b12f2f",
-                        55.104,
+                        50,
                         "hsla(123, 62%, 39%, 0)",
                         64.687,
-                        "#26a12c"
+                        "hsla(123, 62%, 39%, 0.64)"
                     ],
                     'fill-opacity': 1
                 }
@@ -237,11 +237,11 @@ body { margin: 0; padding: 0; }
                         ["get", "personal"],
                         0,
                         "#b12f2f",
-                        43,
+                        50,
                         "hsla(123, 62%, 39%, 0)",
                         58.868,
-                        "#26a12c"
-                        ],
+                        "hsla(123, 62%, 39%, 0.58)"
+                    ],
                     'fill-opacity': 1
                 }
             }
@@ -262,11 +262,11 @@ body { margin: 0; padding: 0; }
                         ["get", "harmUS"],
                         0,
                         "#b12f2f",
-                        62,
+                        50,
                         "hsla(123, 62%, 39%, 0)",
                         75.508,
-                        "#26a12c"
-                        ],
+                        "hsla(123, 62%, 39%, 0.75)"
+                    ],
                     'fill-opacity': 1
                 }
             }
@@ -287,11 +287,11 @@ body { margin: 0; padding: 0; }
                         ["get", "corporatio"],
                         0,
                         "#b12f2f",
-                        68.8,
+                        50,
                         "hsla(123, 62%, 39%, 0)",
                         78.568,
-                        "#26a12c"
-                        ],
+                        "hsla(123, 62%, 39%, 0.78)"
+                    ],
                     'fill-opacity': 1
                 }
             }
@@ -312,11 +312,11 @@ body { margin: 0; padding: 0; }
                         ["get", "president"],
                         0,
                         "#b12f2f",
-                        50.8,
+                        50,
                         "hsla(123, 62%, 39%, 0)",
                         63.883,
-                        "#26a12c"
-                        ],
+                        "hsla(123, 62%, 39%, 0.63)"
+                    ],
                     'fill-opacity': 1
                 }
             }
@@ -684,7 +684,7 @@ body { margin: 0; padding: 0; }
 
     map.on('idle', () => {        
         // Enumerate ids of the layers.
-        const toggleableLayerIds = ['Hours Lost for Weather-Exposed Workers', 'Childhood Asthma Diagnoses', 'Inland Flooding Damage', '2018 Per Capita Energy Related CO2', '2018 Carbon Intensity of the Economy', '2018 Energy Intensity', 'GHG Emissions Targets', 'Climate Change is Happening', 'Climate Change is Human Caused', 'Climate Change will Harm me Personally', 'Climate Change will Harm People in the US', 'Corporations should do more', 'The President should do more', 'State Grade'];
+        const toggleableLayerIds = ['Hours Lost for Weather-Exposed Workers', 'Childhood Asthma Diagnoses', 'Inland Flooding Damage', '2018 Per Capita Energy Related CO2', '2018 Carbon Intensity of the Economy', '2018 Energy Intensity', 'GHG Emissions Targets', 'Climate Change is Happening', 'Climate Change is Human Caused', 'Climate Change will Harm People in the US', 'Climate Change will Harm me Personally', 'Corporations should do more', 'The President should do more', 'State Grade'];
         
         // Set up the corresponding toggle button for each layer.
         for (const id of toggleableLayerIds) {
@@ -725,7 +725,7 @@ body { margin: 0; padding: 0; }
                 }
             };
             
-            if (['Climate Change is Happening', 'Climate Change is Human Caused', 'Climate Change will Harm me Personally', 'Climate Change will Harm People in the US', 'Corporations should do more', 'The President should do more'].includes(link.id))
+            if (['Climate Change is Happening', 'Climate Change is Human Caused', 'Climate Change will Harm People in the US', 'Climate Change will Harm me Personally', 'Corporations should do more', 'The President should do more'].includes(link.id))
             {
                 layersBeliefs.appendChild(link);
             }
